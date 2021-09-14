@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,6 +12,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Testr.Domain.Interfaces;
+using Testr.Infrastructure.Authentication;
+using Testr.Infrastructure.Repositories;
 
 namespace Testr.API
 {
@@ -32,6 +36,12 @@ namespace Testr.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Testr.API", Version = "v1" });
             });
+            services.AddScoped<ICandidateRepository, CandidateRepository>();
+
+            // For Entity Framework  
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr")));
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
