@@ -12,7 +12,7 @@ using Testr.Domain.Interfaces;
 
 namespace Testr.API.Controllers
 {
-    public class CandidateController : Controller
+    public class CandidateController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ICandidateRepository _candidate;
