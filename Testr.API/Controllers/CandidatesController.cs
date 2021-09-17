@@ -8,6 +8,8 @@ using Testr.Domain.Interfaces;
 
 namespace Testr.API.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class CandidatesController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -34,34 +36,12 @@ namespace Testr.API.Controllers
                 return Conflict(responseBody);
             }
 
-            Candidate candidateData = new Candidate()
-            {
-                FirstName = model.FirstName,
-                AcademicQualification = model.AcademicQualification,
-                CountryOfOrigin = model.CountryOfOrigin,
-                DateOfBirth = model.DateOfBirth,
-                DateRegistered = DateTime.Now,
-                EmailAddress = model.EmailAddress,
-                Gender = model.Gender,
-                GitHubUrl = model.GitHubUrl,
-                IsActive = true,
-                LastName = model.LastName,
-                LinkedInUrl = model.LinkedInUrl,
-                MiddleName = model.MiddleName,
-                NYSCCompleted = model.NYSCCompleted,
-                PhoneNumber1 = model.PhoneNumber1,
-                PhoneNumber2 = model.PhoneNumber2,
-                PhotoUrl = model.PhotoUrl,
-                ResidentialAddress = model.ResidentialAddress,
-                ResumeUrl = model.ResumeUrl,
-                StateOfOrigin = model.StateOfOrigin,
-            };
-
             ApplicationUser user = new ApplicationUser()
             {
                 Email = model.EmailAddress,
                 UserName = model.EmailAddress
             };
+
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
@@ -71,16 +51,7 @@ namespace Testr.API.Controllers
                 return BadRequest(responseBody);
             }
 
-            var userIdData = _userManager.FindByEmailAsync(model.EmailAddress);
-            candidateData.UserId = userIdData.Result.Id;
-            var result2 = await _candidate.AddAsync(candidateData);
-            if (result2 == null)
-            {
-                responseBody.Message = "Registration was not successful. Please try again";
-                responseBody.Status = "Failed";
-                responseBody.Payload = null;
-                return BadRequest(responseBody);
-            }
+            await _candidate.AddAsync(model, user);
 
             responseBody.Message = "Registration was successful.";
             responseBody.Status = "Success";
