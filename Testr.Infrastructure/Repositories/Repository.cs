@@ -39,7 +39,7 @@ namespace Testr.Infrastructure.Repositories
         }
 
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T> GetByIdAsync(long id)
         {
             return await _context.Set<T>().FindAsync(id);
         }
