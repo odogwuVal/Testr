@@ -71,10 +71,7 @@ namespace Testr.API
             // For Entity Framework  
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr")));
 
-            // For Identity  
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddEntityFrameworkStores<AppDbContext>()
-                .AddDefaultTokenProviders();
+
 
             // Adding Authentication  
             services.AddAuthentication(options =>

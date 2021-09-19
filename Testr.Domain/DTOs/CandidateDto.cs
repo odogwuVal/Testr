@@ -1,4 +1,6 @@
-﻿namespace Testr.Domain.DTOs
+﻿using Testr.Domain.Base;
+
+namespace Testr.Domain.DTOs
 {
     public class CandidateDto : CandidateBase
     {
