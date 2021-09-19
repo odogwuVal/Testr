@@ -19,21 +19,21 @@ namespace Testr.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthenticateCandidateController : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IConfiguration _configuration;
-        private readonly ICandidateRepository _candidateRepository;
+       // private readonly ICandidateRepository _candidateRepository;
 
 
-        public AuthenticateCandidateController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager,
+        public AuthenticationController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager,
             IConfiguration configuration, ICandidateRepository candidateRepository)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
-            _candidateRepository = candidateRepository;
+           // _candidateRepository = candidateRepository;
 
         }
 
@@ -89,3 +89,4 @@ namespace Testr.API.Controllers
         }
     }
 }
+;
