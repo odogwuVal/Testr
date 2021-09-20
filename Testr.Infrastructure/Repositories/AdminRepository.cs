@@ -17,7 +17,7 @@ namespace Testr.Infrastructure.Repositories
         }
 
 
-        public async Task AddAsync(AdminRegistration registrationInfo, ApplicationUser userInfo)
+        public async Task AddAsync(AdminRegistrationDTO registrationInfo, ApplicationUser userInfo)
         {
             _context.Administrators.Add(
                            new Administrator
