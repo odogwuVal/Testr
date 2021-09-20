@@ -7,6 +7,6 @@ namespace Testr.Domain.Interfaces
 {
     public interface IAdminRepository : IRepository<Administrator>
     {
-        public Task AddAsync(AdminRegistration registrationInfo, ApplicationUser userInfo);
+        public Task AddAsync(AdminRegistrationDTO registrationInfo, ApplicationUser userInfo);
     }
 }

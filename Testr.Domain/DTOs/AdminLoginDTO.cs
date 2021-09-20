@@ -2,7 +2,7 @@
 
 namespace Testr.Domain.DTOs
 {
-    public class AdminLogin
+    public class AdminLoginDTO
     {
         [EmailAddress(ErrorMessage = "This is not a valid Email")]
         [Required(ErrorMessage = "Email Address is required")]

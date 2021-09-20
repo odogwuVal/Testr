@@ -37,7 +37,7 @@ namespace Testr.API.Controllers
 
             [HttpPost]
             [Route("register-admin")]
-            public async Task<IActionResult> RegisterAdmin([FromBody] AdminRegistration model)
+            public async Task<IActionResult> RegisterAdmin([FromBody] AdminRegistrationDTO model)
             {
                 Response responseBody = new Response();
 
