@@ -41,8 +41,6 @@ namespace Testr.API
 
             // For Entity Framework  
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr")));
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,7 +52,6 @@ namespace Testr.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Testr.API v1"));
             }
-
             app.UseHttpsRedirection();
 
             app.UseRouting();

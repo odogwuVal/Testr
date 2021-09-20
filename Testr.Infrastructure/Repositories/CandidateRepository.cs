@@ -16,7 +16,7 @@ namespace Testr.Infrastructure.Repositories
         }
 
 
-        public async Task AddAsync(CandidateRegistration candidateInfo, ApplicationUser userInfo)
+        public async Task AddAsync(CandidateRegistrationDTO candidateInfo, ApplicationUser userInfo)
         {
             Candidate candidateData = new Candidate()
             {

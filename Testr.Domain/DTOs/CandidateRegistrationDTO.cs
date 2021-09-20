@@ -3,7 +3,7 @@ using Testr.Domain.DTOs;
 
 namespace Testr.Domain.Interfaces
 {
-    public class CandidateRegistration : CandidateBase
+    public class CandidateRegistrationDTO : CandidateBase
     {
         [MaxLength(20)]
         [Required(ErrorMessage = "Password is Required")]
