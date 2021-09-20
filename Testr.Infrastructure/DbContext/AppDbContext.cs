@@ -22,8 +22,13 @@ namespace Testr.Infrastructure.Authentication
             builder.Entity<Candidate>()
                 .HasOne(c => c.User)
                 .WithOne();
+
+            builder.Entity<Administrator>()
+               .HasOne(a => a.User)
+               .WithOne();
         }
 
         public DbSet<Candidate> Candidates { get; set; }
+        public DbSet<Administrator> Administrators { get; set; }
     }
 }
