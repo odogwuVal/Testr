@@ -14,37 +14,36 @@ namespace Testr.API.Controllers
     public class CandidatesController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ICandidateRepository _candidate;
+        private readonly ICandidateRepository _candidateRepo;
 
         Response responseBody = new Response();
         public CandidatesController(UserManager<ApplicationUser> userManager, ICandidateRepository candidate)
         {
             _userManager = userManager;
-            _candidate = candidate;
+            _candidateRepo = candidate;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<Candidate>>> GetAllCandidate()
         {
-            var candidates = await _candidate.GetAllAsync();
-           
-
-            var userCandidates = await _candidate.GetAllAsync();
-            if (userCandidates != null)
+            var candidates = await _candidateRepo.GetAllAsync();
+            if (candidates != null)
             {
-                responseBody.Message = "Candidate Profile";
+                responseBody.Message = "Sucessfully fetched all candidates";
                 responseBody.Status = "Success";
-                responseBody.Payload = null;
+                responseBody.Payload = candidates;
                 return Ok(responseBody);
             }
+            // Set response body when fetched
 
-            return Ok(candidates);
+            responseBody.Message = "Successfully return responsebody";
+            return Ok(responseBody);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Candidate>> GetCandidateAsync([FromRoute] long id)
         {
-            var candidate = await _candidate.GetByIdAsync(id);
+            var candidate = await _candidateRepo.GetByIdAsync(id);
             if (candidate == null)
             {
                 responseBody.Message = "Candidate with corresponding id does not exists";
@@ -53,12 +52,15 @@ namespace Testr.API.Controllers
                 return NotFound(responseBody);
             }
 
-            return candidate;
+            // Set response body when found
+            responseBody.Message = "Sucessfully return responsebody";
+           
+            return Ok(responseBody);
         }
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody] CandidateRegistration model)
+        public async Task<IActionResult> Register([FromBody] CandidateRegistrationDTO model)
         {
             Response responseBody = new Response();
 
@@ -86,7 +88,7 @@ namespace Testr.API.Controllers
                 return BadRequest(responseBody);
             }
 
-            await _candidate.AddAsync(model, user);
+            await _candidateRepo.AddAsync(model, user);
 
             responseBody.Message = "Registration was successful.";
             responseBody.Status = "Success";
