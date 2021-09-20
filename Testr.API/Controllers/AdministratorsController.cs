@@ -81,7 +81,7 @@ namespace Testr.API.Controllers
 
                 responseBody.Message = "Admin registration completed successfully.";
                 responseBody.Status = "Success";
-                responseBody.Payload = $"{user.Id} has been created" ;
+                responseBody.Payload = $" An Admin with email {user.UserName} has been provisioned" ;
                 return Created($"/users/{user.Id}", responseBody);
 
             }
