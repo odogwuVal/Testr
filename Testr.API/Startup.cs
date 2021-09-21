@@ -27,14 +27,21 @@ namespace Testr.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(swagger =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Testr.API", Version = "v1" });
+                swagger.SwaggerDoc("v1", new OpenApiInfo 
+                { 
+                    Title = "Testr.API",
+                    Version = "v1",
+                    Description = "A comprehensive technical screening and evaluation app."
+
+                });
             });
 
-            services.AddScoped<ICandidateRepository, CandidateRepository>();
 
+            //Identity
+            services.AddScoped<ICandidateRepository, CandidateRepository>();
+            services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
@@ -55,6 +62,8 @@ namespace Testr.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
