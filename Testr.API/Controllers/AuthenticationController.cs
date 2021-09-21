@@ -25,21 +25,23 @@ namespace Testr.API.Controllers
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IConfiguration _configuration;
        private readonly ICandidateRepository _candidateRepository;
+        private readonly IAdminRepository _adminRepository;
 
 
         public AuthenticationController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager,
-            IConfiguration configuration, ICandidateRepository candidateRepository)
+            IConfiguration configuration, ICandidateRepository candidateRepository, IAdminRepository adminRepository)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
            _candidateRepository = candidateRepository;
+            _adminRepository = adminRepository;
 
         }
 
 
         [HttpPost]
-        [Route("login")]
+        [Route("Candidate-login")]
         public async Task<IActionResult> Login([FromBody] CandidateLogin model)
         {
             Response responseBody = new Response();
@@ -87,6 +89,70 @@ namespace Testr.API.Controllers
             responseBody.Payload = null;
             return Unauthorized(responseBody);
         }
-    }
+
+        [HttpPost]
+        [Route("Admin-login")]
+
+        public async Task<IActionResult> Login([FromBody] AdminLoginDTO model)
+
+        {
+            Response responseBody = new Response();
+
+            ApplicationUser user = await _userManager.FindByEmailAsync(model.EmailAddress);
+
+            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+
+            {
+                IList<string> assignedRoles = await _userManager.GetRolesAsync(user);
+
+                List<Claim> authClaims = new List<Claim>
+
+                {
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+
+                };
+
+                foreach (string role in assignedRoles)
+                {
+                    authClaims.Add(new Claim(ClaimTypes.Role, role));
+
+                }
+
+                SymmetricSecurityKey authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+
+                JwtSecurityToken token = new JwtSecurityToken(
+                    issuer: _configuration["JWT:ValidIssuer"],
+                    audience: _configuration["JWT:ValidAudience"],
+                    expires: DateTime.Now.AddHours(3),
+                    claims: authClaims,
+                    signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+
+                );
+
+
+                // Assign response body properties for successful login
+                responseBody.Message = "Logged in successfully";
+                responseBody.Status = "Success";
+                responseBody.Payload = new
+                {
+                    token = new JwtSecurityTokenHandler().WriteToken(token),
+                    expiration = token.ValidTo
+                };
+                return Ok(responseBody);
+
+            }
+
+            // Assign response body properties for unsuccessful login
+            responseBody.Message = "Login attempt was unsuccessful. Invalid email address or password.";
+            responseBody.Status = "Failed";
+            responseBody.Payload = null;
+            return Unauthorized(responseBody);
+        }
+
+
+
+
+}
 }
 ;
