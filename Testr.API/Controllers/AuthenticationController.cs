@@ -24,7 +24,7 @@ namespace Testr.API.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IConfiguration _configuration;
-       // private readonly ICandidateRepository _candidateRepository;
+       private readonly ICandidateRepository _candidateRepository;
 
 
         public AuthenticationController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager,
@@ -33,7 +33,7 @@ namespace Testr.API.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
-           // _candidateRepository = candidateRepository;
+           _candidateRepository = candidateRepository;
 
         }
 

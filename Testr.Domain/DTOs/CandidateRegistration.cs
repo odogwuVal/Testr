@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Testr.Domain.Base;
 using Testr.Domain.DTOs;
 
 namespace Testr.Domain.Interfaces
