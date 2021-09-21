@@ -2,7 +2,7 @@
 
 namespace Testr.Domain.DTOs
 {
-    public class CandidateProfileDTO : CandidateBase
+    public class CandidateDto : CandidateBase
     {
         public long CandidateId { get; set; }
     }
