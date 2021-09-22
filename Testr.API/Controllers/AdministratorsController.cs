@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -12,7 +13,7 @@ using Testr.Domain.Interfaces;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Testr.API.Controllers
-{
+{   [Authorize (Roles ="SuperAdmin, Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AdministratorsController : ControllerBase
@@ -34,7 +35,7 @@ namespace Testr.API.Controllers
                 _adminRepository = adminRepository;
             }
 
-
+            [Authorize (Roles ="SuperAdmin")]
             [HttpPost]
             [Route("register-admin")]
             public async Task<IActionResult> RegisterAdmin([FromBody] AdminRegistrationDTO model)
