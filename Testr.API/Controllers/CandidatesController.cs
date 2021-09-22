@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using Testr.Domain.Entities;
 using Testr.Domain.Interfaces;
 
 namespace Testr.API.Controllers
-{
+{   [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class CandidatesController : ControllerBase
@@ -65,6 +66,8 @@ namespace Testr.API.Controllers
             return Ok(responseBody);
         }
 
+
+        [Authorize (Roles = "Candidate")]
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] CandidateRegistrationDTO model)

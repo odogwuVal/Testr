@@ -29,6 +29,7 @@ namespace Testr.Infrastructure.Repositories
                                EmailAddress = registrationInfo.EmailAddress,
                                DateAdded = DateTime.Now,
                                User = userInfo
+                               
 
                            }
                            );
