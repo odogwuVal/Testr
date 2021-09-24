@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Testr.Application.Helpers;
 using Testr.Domain.DTOs;
 using Testr.Domain.Entities;
 using Testr.Domain.Interfaces;
@@ -14,12 +14,18 @@ namespace Testr.API.Controllers
     public class CandidatesController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ICandidateRepository _candidateRepo; 
-        public CandidatesController(UserManager<ApplicationUser> userManager, ICandidateRepository candidate)
+        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly ICandidateRepository _candidateRepo;
+        private readonly IAuthorizationHelper _authHelper;
+
+        public CandidatesController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, ICandidateRepository candidate, IAuthorizationHelper authHelper)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _candidateRepo = candidate;
+            _authHelper = authHelper;
         }
+
 
         [HttpGet]
         public async Task<ActionResult<List<Candidate>>> GetAllCandidate()
@@ -42,10 +48,20 @@ namespace Testr.API.Controllers
             return Ok(responseBody);
         }
 
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Candidate>> GetCandidateAsync([FromRoute] long id)
         {
             Response responseBody = new Response();
+
+            if (await _authHelper.CurrentUserHasRoleAsync("Admin") == false && _authHelper.GetCurrentCandidateId() != id)
+            {
+                responseBody.Message = "Sorry, you are not permitted to view this candidate's profile.";
+                responseBody.Payload = null;
+                responseBody.Status = "Failed";
+                return Forbid();
+            }
+
             var candidate = await _candidateRepo.GetByIdAsync(id);
 
             // Reponse body when not found
@@ -64,6 +80,7 @@ namespace Testr.API.Controllers
 
             return Ok(responseBody);
         }
+
 
         [HttpPost]
         [Route("register")]
@@ -96,6 +113,12 @@ namespace Testr.API.Controllers
             }
 
             await _candidateRepo.AddAsync(model, user);
+
+            if (!await _roleManager.RoleExistsAsync("Candidate"))
+                await _roleManager.CreateAsync(new ApplicationRole() { Name = "Candidate" });
+
+            if (await _roleManager.RoleExistsAsync("Candidate"))
+                await _userManager.AddToRoleAsync(user, "Candidate");
 
             responseBody.Message = "Registration was successful.";
             responseBody.Status = "Success";

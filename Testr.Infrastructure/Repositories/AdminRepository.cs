@@ -22,18 +22,13 @@ namespace Testr.Infrastructure.Repositories
             _context.Administrators.Add(
                            new Administrator
                            {
-
-
                                FirstName = registrationInfo.FirstName,
                                LastName = registrationInfo.LastName,
                                EmailAddress = registrationInfo.EmailAddress,
                                DateAdded = DateTime.Now,
                                User = userInfo
-
                            }
                            );
-
-
             await _context.SaveChangesAsync();
         }
     }

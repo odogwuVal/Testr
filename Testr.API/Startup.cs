@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using Testr.Application.Helpers;
 using Testr.Domain.Entities;
 using Testr.Domain.Interfaces;
 using Testr.Infrastructure.Authentication;
@@ -61,8 +61,7 @@ namespace Testr.API
                 });
             });
 
-
-
+            services.AddScoped<IAuthorizationHelper, AuthorizationHelper>();
             services.AddScoped<ICandidateRepository, CandidateRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddIdentity<ApplicationUser, ApplicationRole>()
@@ -96,6 +95,7 @@ namespace Testr.API
              });
 
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
