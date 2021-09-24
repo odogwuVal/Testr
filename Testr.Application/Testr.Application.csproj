@@ -8,4 +8,14 @@
     <Folder Include="Common\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Testr.Domain\Testr.Domain.csproj" />
+    <ProjectReference Include="..\Testr.Infrastructure\Testr.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
