@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using Testr.Application.Helpers;
 using Testr.Domain.Entities;
 using Testr.Domain.Interfaces;
 using Testr.Infrastructure.Authentication;
@@ -62,7 +63,7 @@ namespace Testr.API
             });
 
 
-
+            services.AddScoped<IAuthorizationHelper, AuthorizationHelper>();
             services.AddScoped<ICandidateRepository, CandidateRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddIdentity<ApplicationUser, ApplicationRole>()
