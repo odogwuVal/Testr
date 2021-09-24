@@ -61,7 +61,6 @@ namespace Testr.API
                 });
             });
 
-
             services.AddScoped<IAuthorizationHelper, AuthorizationHelper>();
             services.AddScoped<ICandidateRepository, CandidateRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
@@ -96,6 +95,7 @@ namespace Testr.API
              });
 
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
