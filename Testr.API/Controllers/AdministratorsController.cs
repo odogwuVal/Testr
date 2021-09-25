@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -31,12 +32,12 @@ namespace Testr.API.Controllers
             _adminRepository = adminRepository;
         }
 
-
         [HttpPost]
         [Route("register-admin")]
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] AdminRegistrationDTO model)
-        {
-            Response responseBody = new Response();
+            {
+                Response responseBody = new Response();
 
             ApplicationUser adminExist = await _userManager.FindByEmailAsync(model.EmailAddress);
             if (adminExist != null)
