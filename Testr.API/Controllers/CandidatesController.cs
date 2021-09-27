@@ -29,6 +29,7 @@ namespace Testr.API.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         public async Task<ActionResult<List<Candidate>>> GetAllCandidate()
         {
             Response responseBody = new Response();
@@ -51,6 +52,7 @@ namespace Testr.API.Controllers
 
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Candidate>> GetCandidateAsync([FromRoute] long id)
         {
             Response responseBody = new Response();
