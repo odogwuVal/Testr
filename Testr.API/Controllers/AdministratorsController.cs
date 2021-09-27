@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -13,7 +13,7 @@ using Testr.Domain.Interfaces;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Testr.API.Controllers
-{
+{   [Authorize (Roles ="SuperAdmin, Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AdministratorsController : ControllerBase
@@ -32,14 +32,15 @@ namespace Testr.API.Controllers
             _adminRepository = adminRepository;
         }
 
+
         [HttpPost]
         [Route("register-admin")]
         [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] AdminRegistrationDTO model)
-            {
-                Response responseBody = new Response();
+        {
+            Response responseBody = new Response();
 
-            ApplicationUser adminExist = await _userManager.FindByEmailAsync(model.EmailAddress);
+            ApplicationUser adminExist = await _userManager.FindByEmailAsync(model.EmailAddress);            
             if (adminExist != null)
             {
                 responseBody.Message = "An Administrator with this Email Address already exist";
@@ -69,14 +70,13 @@ namespace Testr.API.Controllers
             if (!await _roleManager.RoleExistsAsync("Admin"))
                 await _roleManager.CreateAsync(new ApplicationRole() { Name = "Admin" });
 
-
             if (await _roleManager.RoleExistsAsync("Admin"))
                 await _userManager.AddToRoleAsync(user, "Admin");
 
-            responseBody.Message = "Admin registration completed successfully.";
+            responseBody.Message = $"An Admin with email {user.UserName} has been provisioned";
             responseBody.Status = "Success";
-            responseBody.Payload = $" An Admin with email {user.UserName} has been provisioned";
-            return Created($"/users/{user.Id}", responseBody);
+            responseBody.Payload = null;
+            return Created("", responseBody);
         }
     }
 }

@@ -9,7 +9,7 @@ using Testr.Domain.Entities;
 using Testr.Domain.Interfaces;
 
 namespace Testr.API.Controllers
-{
+{   [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class CandidatesController : ControllerBase
@@ -85,6 +85,7 @@ namespace Testr.API.Controllers
         }
 
 
+        [Authorize (Roles = "Candidate")]
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] CandidateRegistrationDTO model)
