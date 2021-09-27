@@ -10,10 +10,9 @@ using Testr.Domain.DTOs;
 using Testr.Domain.Entities;
 using Testr.Domain.Interfaces;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Testr.API.Controllers
-{   [Authorize (Roles ="SuperAdmin, Admin")]
+{
+    [Authorize (Roles = "SuperAdmin, Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AdministratorsController : ControllerBase
