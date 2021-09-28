@@ -6,8 +6,6 @@ namespace Testr.Domain.Interfaces
 {
     public interface ICandidateRepository : IRepository<Candidate>
     {
-
         public Task AddAsync(CandidateRegistrationDTO candidateInfo, ApplicationUser userInfo);
-
     }
 }

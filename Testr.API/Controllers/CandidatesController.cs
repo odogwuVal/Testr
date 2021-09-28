@@ -77,6 +77,7 @@ namespace Testr.API.Controllers
             }
 
             // Set response body when found
+
             responseBody.Message = "Sucessfully fetched candidate with id";
             responseBody.Status = "Success";
             responseBody.Payload = candidate;
