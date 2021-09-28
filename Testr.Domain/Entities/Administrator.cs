@@ -18,6 +18,5 @@ namespace Testr.Domain.Entities
         public long UserId { get; set; }
 
         public ApplicationUser User { get; set; }
-
     }
 }
