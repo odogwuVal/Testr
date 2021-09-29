@@ -85,7 +85,7 @@ namespace Testr.API.Controllers
         }
 
 
-        [Authorize AllowAnonymous]
+        [AllowAnonymous]
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] CandidateRegistrationDTO model)
