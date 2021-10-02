@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Testr.Infrastructure.Model;
+using Testr.Infrastructure.EmailModel;
 
-namespace Testr.Application.EmailServices
+namespace Testr.Infrastructure.EmailServices
 {
     public interface IMailService
     {
-        Task SendEmailAsync(MailRequest mailRequest);
+        public Task SendEmailAsync(MailRequest mailRequest);
     }
 }
