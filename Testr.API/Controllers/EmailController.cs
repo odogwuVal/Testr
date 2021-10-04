@@ -20,12 +20,14 @@ namespace Testr.API.Controllers
     [Authorize(Roles = "SuperAdmin, Admin")]
     public class EmailController : ControllerBase
     {
+        private readonly IWebHostEnvironment _host;
         private readonly IMailService _mailService;
         private readonly ICandidateRepository _candidateRepo;
 
 
         public EmailController(IWebHostEnvironment host, IMailService mailService, ICandidateRepository candidateRepo)
         {
+            _host = host;
             _mailService = mailService;
             _candidateRepo = candidateRepo;
         }
@@ -39,14 +41,14 @@ namespace Testr.API.Controllers
 
             try
             {
-                await _mailService.SendEmailAsync(mailRequest);
+            await _mailService.SendEmailAsync(mailRequest);
 
                 responseBody.Message = "Email sent successfully";
                 responseBody.Status = "Success";
                 responseBody.Payload = null;
 
                 return Ok(responseBody);
-            }
+        }
             catch (Exception)
             {
                 responseBody.Message = "Email not sent";
@@ -70,6 +72,7 @@ namespace Testr.API.Controllers
                 {
                     mailRequest.ToEmail = candidate.EmailAddress;
                     await _mailService.SendEmailAsync(mailRequest);
+                    await Task.FromResult(0);
                 }
 
                 responseBody.Message = "Bulk Email sent successfully";
