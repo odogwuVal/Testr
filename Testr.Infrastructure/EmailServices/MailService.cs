@@ -27,8 +27,8 @@ namespace Testr.Infrastructure.EmailServices
             email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
             email.To.Add(MailboxAddress.Parse(mailRequest.ToEmail));
             email.Subject = mailRequest.Subject;
-            //email.Cc = mailRequest.CcEmail;
-            //email.Bcc = mailRequest.BccEmail;
+            email.Cc.Add(MailboxAddress.Parse(mailRequest.CcEmail));
+            email.Bcc.Add(MailboxAddress.Parse(mailRequest.BccEmail));
             var builder = new BodyBuilder();
             if (mailRequest.Attachments != null)
             {
