@@ -12,6 +12,7 @@ using System.Text;
 using Testr.Application.Helpers;
 using Testr.Domain.Entities;
 using Testr.Domain.Interfaces;
+using Testr.Infrastructure;
 using Testr.Infrastructure.Authentication;
 using Testr.Infrastructure.Repositories;
 
@@ -67,6 +68,8 @@ namespace Testr.API
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
 
             // For Entity Framework  
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr")));
