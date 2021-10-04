@@ -51,33 +51,6 @@ namespace Testr.API.Controllers
             return Ok(responseBody);
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetAllCycles()
-        //{
-
-        //    return Ok(await _cycleRepo.GetAllAsync());
-        //}
-
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<Cycle>> GetCycle(long id)
-        //{
-        //    try
-        //    {
-        //        var result = await _cycleRepo.GetByIdAsync(id);
-
-        //        if (result == null)
-        //        {
-        //            return NotFound();
-        //        }
-
-        //        return result;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError,
-        //            "Error retrieving data from the database");
-        //    }
-        //}
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCycleAsync([FromRoute] long id)
@@ -101,7 +74,6 @@ namespace Testr.API.Controllers
             }
         }
        
-
 
         [HttpPost]
         [Route("Create-cycle")]
