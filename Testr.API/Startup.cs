@@ -65,6 +65,7 @@ namespace Testr.API
                 });
             });
 
+            services.AddScoped<ICycleRepository, CycleRepository>();
             services.AddScoped<IAuthorizationHelper, AuthorizationHelper>();
             services.AddScoped<ICandidateRepository, CandidateRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
