@@ -19,7 +19,7 @@ namespace Testr.Infrastructure.Repositories
         }
         public async Task AddAsync(CycleRegistrationDTO registrationInfo, ApplicationUser userInfo)
         {
-            _context.cycles.Add(
+            _context.Cycles.Add(
                        new Cycle
 
                        {
