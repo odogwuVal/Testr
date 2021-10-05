@@ -31,7 +31,7 @@ namespace Testr.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Cycle>>> GetAllCycles()
+        public async Task<ActionResult<List<Cycle>>> GetAllCyclesAsync()
         {
             Response responseBody = new Response();
             var result = await _cycleRepo.GetAllAsync();
@@ -48,12 +48,12 @@ namespace Testr.API.Controllers
             responseBody.Message = "Cycles fetch failed";
             responseBody.Status = "Failed";
             responseBody.Payload = null;
-            return Ok(responseBody);
+            return NotFound(responseBody);
         }
 
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCycleAsync([FromRoute] long id)
+        public async Task<ActionResult<Cycle>> GetCycleAsync([FromRoute] long id)
         {
             Response responseBody = new Response();
             var result = await _cycleRepo.GetByIdAsync(id);
@@ -62,7 +62,7 @@ namespace Testr.API.Controllers
                 responseBody.Message = "Cycles with corresponding id failed";
                 responseBody.Status = "Failed";
                 responseBody.Payload = null;
-                return Ok(responseBody);
+                return NotFound(responseBody);
             }
 
             else
@@ -84,15 +84,15 @@ namespace Testr.API.Controllers
             var result = await _cycleRepo.AddAsync(cycle);
             if (result == null)
             {
-                responseBody.Message = "Registration was not successful. Please try again";
+                responseBody.Message = "Cycle creation was not successful. Please try again";
                 responseBody.Status = "Failed";
-                responseBody.Payload = result;
+                responseBody.Payload = null;
                 return BadRequest(responseBody);
             }
             else
 
             {
-                responseBody.Message = "Registration was successful.";
+                responseBody.Message = "Cycle Creation was successful.";
                 responseBody.Status = "Success";
                 responseBody.Payload = null;
                 return Created("", responseBody);
