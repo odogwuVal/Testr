@@ -29,7 +29,9 @@ namespace Testr.Infrastructure.Authentication
         }
 
         public DbSet<Candidate> Candidates { get; set; }
+        
         public DbSet<Administrator> Administrators { get; set; }
-        public DbSet<Cycle> cycles { get; set; }
+        
+        public DbSet<Cycle> Cycles { get; set; }
     }
 }
