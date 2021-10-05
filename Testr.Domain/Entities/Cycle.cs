@@ -13,10 +13,9 @@ namespace Testr.Domain.Entities
         [Key]
         [Required]
         public long CycleId { get; set; }
+        
         [Required]
-        public long UserId { get; set; }
-        [Required]
-        public DateTime DateRegistered { get; set; }
+        public DateTime DateCreated { get; set; }
 
     }
 }
