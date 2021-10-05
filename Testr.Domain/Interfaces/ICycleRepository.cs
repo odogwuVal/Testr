@@ -12,7 +12,9 @@ namespace Testr.Domain.Interfaces
     public interface ICycleRepository :IRepository<Cycle>
     {
         public Task AddAsync(CycleRegistrationDTO cycleInfo, ApplicationUser userInfo);
+       
         Task<object> DeleteAsync();
+       
         Task UpdateAsync(long id);
     }
 }
