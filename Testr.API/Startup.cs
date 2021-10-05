@@ -1,3 +1,4 @@
+//using MailKit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,7 +13,9 @@ using System.Text;
 using Testr.Application.Helpers;
 using Testr.Domain.Entities;
 using Testr.Domain.Interfaces;
+using Testr.Infrastructure;
 using Testr.Infrastructure.Authentication;
+using Testr.Infrastructure.EmailServices;
 using Testr.Infrastructure.Repositories;
 
 namespace Testr.API
@@ -67,6 +70,9 @@ namespace Testr.API
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.AddTransient<IMailService, MailService>();
 
             // For Entity Framework  
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr")));

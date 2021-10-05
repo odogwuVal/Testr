@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -77,6 +77,7 @@ namespace Testr.API.Controllers
             }
 
             // Set response body when found
+
             responseBody.Message = "Sucessfully fetched candidate with id";
             responseBody.Status = "Success";
             responseBody.Payload = candidate;
