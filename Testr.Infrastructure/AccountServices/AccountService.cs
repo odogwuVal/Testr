@@ -1,14 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Testr.Domain.DTOs;
 using Testr.Domain.Entities;
-using Testr.Infrastructure.AccountServices.MailService;
 using Testr.Infrastructure.EmailModel;
 using Testr.Infrastructure.EmailServices;
 
@@ -31,26 +27,15 @@ namespace Testr.Infrastructure.AccountServices
 
         public async Task<bool> ForgotPasswordAsync(string email)
         {
-         
-            /*
-             - No user matches the email
-             - Matching user found
-             
-             */
 
-            
             var user = await _userManager.FindByEmailAsync(email);
-             Response responseBody = new Response();
+            Response responseBody = new Response();
 
             // No user matches the email
             if (user == null)
             {
                 return false;
-                //responseBody.Message = "This Email does not exist";
-                //responseBody.Status = "Failed";
-                //responseBody.Payload = null;
 
-                //return responseBody;
             }
 
             // Matching user found
@@ -60,6 +45,7 @@ namespace Testr.Infrastructure.AccountServices
 
             string url = $"{_configuration["AppUrl"]}/ResetPassword?email={email}&token={validToken}";
 
+            //sends the mail to the user using 
             MailRequest mailRequest = new MailRequest()
             {
                 ToEmail = email,
@@ -81,17 +67,12 @@ namespace Testr.Infrastructure.AccountServices
                 return false;
             }
 
-            //if (model.NewPassword != model.ConfirmPassword)
-            //{
-
-            //}
-
             var decodedToken = WebEncoders.Base64UrlDecode(model.Token);
             string normalToken = Encoding.UTF8.GetString(decodedToken);
 
             await _userManager.ResetPasswordAsync(user, normalToken, model.NewPassword);
 
-            return true; 
+            return true;
         }
     }
 }
