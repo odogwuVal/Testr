@@ -14,6 +14,7 @@ using Testr.Application.Helpers;
 using Testr.Domain.Entities;
 using Testr.Domain.Interfaces;
 using Testr.Infrastructure;
+using Testr.Infrastructure.AccountServices;
 using Testr.Infrastructure.Authentication;
 using Testr.Infrastructure.EmailServices;
 using Testr.Infrastructure.Repositories;
@@ -70,6 +71,7 @@ namespace Testr.API
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
+            services.AddScoped<IAccountService, AccountService>();
 
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.AddTransient<IMailService, MailService>();
