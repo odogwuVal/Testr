@@ -13,9 +13,9 @@ namespace Testr.API.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private IAccountService _accountService;
-        private IMailService _mailService;
-        private IConfiguration _configuration;
+        private readonly IAccountService _accountService;
+        private readonly IMailService _mailService;
+        private readonly IConfiguration _configuration;
 
         public AccountController(IAccountService accountService, IMailService mailService, IConfiguration configuration)
         {
@@ -25,8 +25,8 @@ namespace Testr.API.Controllers
         }
 
         
-        [HttpPost("ForgotPassword")]
-        public async Task<IActionResult> ForgotPassword(string email)
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPasswordAsync(string email)
         {
             Response responseBody = new Response();
             if (string.IsNullOrEmpty(email))
@@ -38,34 +38,34 @@ namespace Testr.API.Controllers
                 return BadRequest(responseBody);
             }
 
-            bool result = await _accountService.ForgotPasswordAsync(email);
+             await _accountService.ForgotPasswordAsync(email);
 
             responseBody.Message = $"A password reset link has been sent to {email}";
             responseBody.Status = "Success";
-            responseBody.Payload = result;
+            responseBody.Payload = null;
 
             return Ok(responseBody);
         }
 
       
-        [HttpPost("ResetPassword")]
-        public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordDTO model)
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPasswordAsync([FromForm] ResetPasswordDTO model)
         {
             Response responseBody = new Response();
             if (!ModelState.IsValid)
             {
-                responseBody.Message = "Email address not found";
+                responseBody.Message = "Validation failed. Please check your entries and try again";
                 responseBody.Status = "Failed";
                 responseBody.Payload = null;
 
                 return BadRequest(responseBody);
             }
 
-            bool result = await _accountService.ResetPasswordAsync(model);
+            await _accountService.ResetPasswordAsync(model);
 
             responseBody.Message = "Password has been reset successfully";
             responseBody.Status = "Success";
-            responseBody.Payload = result ;
+            responseBody.Payload = null ;
 
             return Ok(responseBody);
 
