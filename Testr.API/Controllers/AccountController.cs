@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Testr.Domain.DTOs;
 using Testr.Infrastructure.AccountServices;
@@ -10,6 +8,7 @@ using Testr.Infrastructure.EmailServices;
 
 namespace Testr.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
@@ -25,7 +24,7 @@ namespace Testr.API.Controllers
             _configuration = configuration;
         }
 
-
+        [Authorize(Roles = "Candidate")]
         [HttpPost("ForgotPassword")]
         public async Task<IActionResult> ForgotPassword(string email)
         {
@@ -39,7 +38,7 @@ namespace Testr.API.Controllers
                 return BadRequest(responseBody);
             }
 
-            bool result = await _acccountService.ForgotPasswordAsync(email);
+            await _acccountService.ForgotPasswordAsync(email);
 
             responseBody.Message = $"A password reset link has been sent to {email}";
             responseBody.Status = "Success";
@@ -48,8 +47,9 @@ namespace Testr.API.Controllers
             return Ok(responseBody);
         }
 
+        [Authorize(Roles = "Candidate")]
         [HttpPost("ResetPassword")]
-        public async Task<IActionResult> ResetPassword([FromForm]ResetPasswordDTO model)
+        public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordDTO model)
         {
             Response responseBody = new Response();
             if (!ModelState.IsValid)
@@ -61,7 +61,7 @@ namespace Testr.API.Controllers
                 return BadRequest(responseBody);
             }
 
-            bool result = await _acccountService.ResetPasswordAsync(model);
+            await _acccountService.ResetPasswordAsync(model);
 
             responseBody.Message = $"Password has been reset successfully";
             responseBody.Status = "Success";
