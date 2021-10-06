@@ -78,7 +78,7 @@ namespace Testr.API
             services.AddTransient<IMailService, MailService>();
 
             // For Entity Framework  
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr"")));
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr")));
 
             // Adding Authentication  
             services.AddAuthentication(options =>
