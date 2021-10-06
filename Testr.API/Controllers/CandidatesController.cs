@@ -77,7 +77,6 @@ namespace Testr.API.Controllers
             }
 
             // Set response body when found
-
             responseBody.Message = "Sucessfully fetched candidate with id";
             responseBody.Status = "Success";
             responseBody.Payload = candidate;
@@ -86,7 +85,7 @@ namespace Testr.API.Controllers
         }
 
 
-        [AllowAnonymous]
+        [Authorize (Roles = "Candidate")]
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] CandidateRegistrationDTO model)
