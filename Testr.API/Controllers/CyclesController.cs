@@ -57,15 +57,15 @@ namespace Testr.API.Controllers
         {
             try
             {
-                Response responseBody = new Response();
-                var result = await _cycleRepo.GetByIdAsync(id);
-                if (result == null)
-                {
+            Response responseBody = new Response();
+            var result = await _cycleRepo.GetByIdAsync(id);
+            if (result == null)
+            {
                     responseBody.Message = "Cycle with corresponding id not found";
-                    responseBody.Status = "Failed";
-                    responseBody.Payload = null;
+                responseBody.Status = "Failed";
+                responseBody.Payload = null;
                     return NotFound(responseBody);
-                }
+            }
 
                 responseBody.Message = "Sucessfully fetched cycle Id";
                 responseBody.Status = "Success";
@@ -81,9 +81,9 @@ namespace Testr.API.Controllers
                 responseBody.Status = "Failed";
                 responseBody.Payload = null;
                 return StatusCode(500, "Internal server error");
-            }
         }
-
+        }
+       
         [HttpPost]
         public async Task<ActionResult<Cycles>> CreateCycleAsync([FromBody] CycleDTO cycle)
         {

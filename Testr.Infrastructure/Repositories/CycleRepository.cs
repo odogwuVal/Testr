@@ -37,7 +37,7 @@ namespace Testr.Infrastructure.Repositories
                        );
             await _context.SaveChangesAsync();
         }
- 
+
 
         Task<object> ICycleRepository.DeleteAsync()
         {
