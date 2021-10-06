@@ -13,13 +13,13 @@ namespace Testr.API.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private IAccountService _acccountService;
+        private IAccountService _accountService;
         private IMailService _mailService;
         private IConfiguration _configuration;
 
         public AccountController(IAccountService accountService, IMailService mailService, IConfiguration configuration)
         {
-            _acccountService = accountService;
+            _accountService = accountService;
             _mailService = mailService;
             _configuration = configuration;
         }
@@ -38,7 +38,7 @@ namespace Testr.API.Controllers
                 return BadRequest(responseBody);
             }
 
-            bool result = await _acccountService.ForgotPasswordAsync(email);
+            bool result = await _accountService.ForgotPasswordAsync(email);
 
             responseBody.Message = $"A password reset link has been sent to {email}";
             responseBody.Status = "Success";
@@ -54,16 +54,16 @@ namespace Testr.API.Controllers
             Response responseBody = new Response();
             if (!ModelState.IsValid)
             {
-                responseBody.Message = $"Email address not found";
+                responseBody.Message = "Email address not found";
                 responseBody.Status = "Failed";
                 responseBody.Payload = null;
 
                 return BadRequest(responseBody);
             }
 
-            bool result = await _acccountService.ResetPasswordAsync(model);
+            bool result = await _accountService.ResetPasswordAsync(model);
 
-            responseBody.Message = $"Password has been reset successfully";
+            responseBody.Message = "Password has been reset successfully";
             responseBody.Status = "Success";
             responseBody.Payload = result ;
 
