@@ -31,7 +31,7 @@ namespace Testr.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Cycle>>> GetAllCyclesAsync()
+        public async Task<ActionResult<List<Cycles>>> GetAllCyclesAsync()
         {
             Response responseBody = new Response();
             var result = await _cycleRepo.GetAllAsync();
@@ -53,57 +53,66 @@ namespace Testr.API.Controllers
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Cycle>> GetCycleAsync([FromRoute] long id)
+        public async Task<ActionResult<Cycles>> GetCycleAsync([FromRoute] long id)
         {
-            Response responseBody = new Response();
-            var result = await _cycleRepo.GetByIdAsync(id);
-            if (result == null)
+            try
             {
-                responseBody.Message = "Cycles with corresponding id failed";
-                responseBody.Status = "Failed";
-                responseBody.Payload = null;
-                return NotFound(responseBody);
-            }
+                Response responseBody = new Response();
+                var result = await _cycleRepo.GetByIdAsync(id);
+                if (result == null)
+                {
+                    responseBody.Message = "Cycle with corresponding id not found";
+                    responseBody.Status = "Failed";
+                    responseBody.Payload = null;
+                    return NotFound(responseBody);
+                }
 
-            else
-            {
                 responseBody.Message = "Sucessfully fetched cycle Id";
                 responseBody.Status = "Success";
                 responseBody.Payload = result;
                 return Ok(responseBody);
+
+            }
+
+            catch (Exception)
+            {
+                Response responseBody = new Response();
+                responseBody.Message = "Internal Server Error";
+                responseBody.Status = "Failed";
+                responseBody.Payload = null;
+                return StatusCode(500, "Internal server error");
             }
         }
-       
 
         [HttpPost]
-        [Route("Create-cycle")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([FromBody] Cycle cycle)
+        public async Task<ActionResult<Cycles>> CreateCycleAsync([FromBody] CycleDTO cycle)
         {
             Response responseBody = new Response();
-            var result = await _cycleRepo.AddAsync(cycle);
-            if (result == null)
+
+            try
+            {
+                Administrator currentAdmin = _authHelper.GetCurrentAdmin();
+
+                await _cycleRepo.AddAsync(cycle, currentAdmin);
+                responseBody.Message = "Cycle Creation was successful.";
+                responseBody.Status = "Success";
+                responseBody.Payload = null;
+                return Created("", responseBody);
+            }
+            catch (Exception)
             {
                 responseBody.Message = "Cycle creation was not successful. Please try again";
                 responseBody.Status = "Failed";
                 responseBody.Payload = null;
                 return BadRequest(responseBody);
             }
-            else
-
-            {
-                responseBody.Message = "Cycle Creation was successful.";
-                responseBody.Status = "Success";
-                responseBody.Payload = null;
-                return Created("", responseBody);
-            }
 
         }
-
 
     }
 
 }
+
 
 
 
