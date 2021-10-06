@@ -9,12 +9,13 @@ using Testr.Domain.Interfaces.Base;
 
 namespace Testr.Domain.Interfaces
 {
-    public interface ICycleRepository :IRepository<Cycle>
+    public interface ICycleRepository :IRepository<Cycles>
     {
-        public Task AddAsync(CycleRegistrationDTO cycleInfo, ApplicationUser userInfo);
+        public Task AddAsync(CycleDTO cycleInfo, Administrator admin);
        
         Task<object> DeleteAsync();
        
         Task UpdateAsync(long id);
+       
     }
 }
