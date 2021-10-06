@@ -9,7 +9,7 @@ namespace Testr.Domain.Base
 {
    public  class CycleBase
     {
-        [MaxLength(50)]
+        [MaxLength(20)]
         [Required(ErrorMessage = "Cycle Name is required")]
         public string CycleName { get; set; }
 
@@ -17,7 +17,7 @@ namespace Testr.Domain.Base
         [Required(ErrorMessage = "Description  is required")]
         public string Description { get; set; }
 
-        [MaxLength(20)]
+        [MaxLength(10)]
         [Required(ErrorMessage = "Status is required")]
         public string Status { get; set; }
 
@@ -27,7 +27,6 @@ namespace Testr.Domain.Base
         [Required(ErrorMessage = "Date closed is required")]
         public DateTime DateClosed { get; set; }
 
-        [Required(ErrorMessage = "Last Date Modified is required")]
-        public DateTime LastModified { get; set; }
+        
     }
 }
