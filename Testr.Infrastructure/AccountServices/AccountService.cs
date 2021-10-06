@@ -12,9 +12,9 @@ namespace Testr.Infrastructure.AccountServices
 {
     public class AccountService : IAccountService
     {
-        private UserManager<ApplicationUser> _userManager;
-        private IConfiguration _configuration;
-        private IMailService _mailService;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IConfiguration _configuration;
+        private readonly IMailService _mailService;
 
         public AccountService(UserManager<ApplicationUser> userManager, IConfiguration configuration, IMailService mailService)
         {
@@ -29,13 +29,12 @@ namespace Testr.Infrastructure.AccountServices
         {
 
             var user = await _userManager.FindByEmailAsync(email);
-            Response responseBody = new Response();
+        
 
             // No user matches the email
             if (user == null)
             {
                 return false;
-
             }
 
             // Matching user found
@@ -45,11 +44,11 @@ namespace Testr.Infrastructure.AccountServices
 
             string url = $"{_configuration["AppUrl"]}/ResetPassword?email={email}&token={validToken}";
 
-            //sends the mail to the user using 
+            //sends the mail to the user
             MailRequest mailRequest = new MailRequest()
             {
                 ToEmail = email,
-                Subject = "Testr Password Rest",
+                Subject = "Testr Password Reset",
                 Body = $"Click on this link to reset your password: {url}"
             };
 
@@ -66,6 +65,7 @@ namespace Testr.Infrastructure.AccountServices
             {
                 return false;
             }
+            //***token should be extracted for the URL ***
 
             var decodedToken = WebEncoders.Base64UrlDecode(model.Token);
             string normalToken = Encoding.UTF8.GetString(decodedToken);
