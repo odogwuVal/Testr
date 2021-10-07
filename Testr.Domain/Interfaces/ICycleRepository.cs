@@ -9,7 +9,7 @@ using Testr.Domain.Interfaces.Base;
 
 namespace Testr.Domain.Interfaces
 {
-    public interface ICycleRepository :IRepository<Cycles>
+    public interface ICycleRepository :IRepository<Cycle>
     {
         public Task AddAsync(CycleDTO cycleInfo, Administrator admin);
        
