@@ -10,11 +10,9 @@ using Testr.Infrastructure.Authentication;
 
 namespace Testr.Infrastructure.Repositories
 {
-    public class CycleRepository : Repository<Cycles>, ICycleRepository
+    public class CycleRepository : Repository<Cycle>, ICycleRepository
     {
         private readonly AppDbContext _context;
-
-       
 
         public CycleRepository(AppDbContext context) : base(context)
         {
@@ -23,7 +21,7 @@ namespace Testr.Infrastructure.Repositories
         public async Task AddAsync(CycleDTO cycleInfo, Administrator admin)
         {
             _context.Cycles.Add(
-                       new Cycles
+                       new Cycle
 
                        {
                            CycleName = cycleInfo.CycleName,
@@ -38,15 +36,17 @@ namespace Testr.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+             Task<object> ICycleRepository.DeleteAsync()
+             {
+                 throw new NotImplementedException();
+                 
+             }
 
-        Task<object> ICycleRepository.DeleteAsync()
-        {
-            throw new NotImplementedException();
-        }
+             Task ICycleRepository.UpdateAsync(long id)
+             {
 
-        Task ICycleRepository.UpdateAsync(long id)
-        {
-            throw new NotImplementedException();
-        }
+                throw new NotImplementedException();
+                
+             }
     }
 }
