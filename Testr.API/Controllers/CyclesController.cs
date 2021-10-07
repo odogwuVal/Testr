@@ -15,7 +15,7 @@ namespace Testr.API.Controllers
     [Authorize(Roles = "SuperAdmin, Admin")]
     [Route("api/[controller]")]
     [ApiController]
-    public class CyclesController : ControllerBase
+        public class CyclesController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
@@ -31,7 +31,7 @@ namespace Testr.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Cycles>>> GetAllCyclesAsync()
+        public async Task<ActionResult<List<Cycle>>> GetAllCyclesAsync()
         {
             Response responseBody = new Response();
             var result = await _cycleRepo.GetAllAsync();
@@ -45,15 +45,15 @@ namespace Testr.API.Controllers
             }
 
             // Set response body when not fetched
-            responseBody.Message = "Cycles fetch failed";
-            responseBody.Status = "Failed";
-            responseBody.Payload = null;
-            return NotFound(responseBody);
+               responseBody.Message = "Cycles fetch failed";
+               responseBody.Status = "Failed";
+               responseBody.Payload = null;
+               return NotFound(responseBody);
         }
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Cycles>> GetCycleAsync([FromRoute] long id)
+        public async Task<ActionResult<Cycle>> GetCycleAsync([FromRoute] long id)
         {
             try
             {
@@ -61,10 +61,10 @@ namespace Testr.API.Controllers
             var result = await _cycleRepo.GetByIdAsync(id);
             if (result == null)
             {
-                    responseBody.Message = "Cycle with corresponding id not found";
+                responseBody.Message = "Cycle with corresponding id not found";
                 responseBody.Status = "Failed";
                 responseBody.Payload = null;
-                    return NotFound(responseBody);
+                return NotFound(responseBody);
             }
 
                 responseBody.Message = "Sucessfully fetched cycle Id";
@@ -80,12 +80,12 @@ namespace Testr.API.Controllers
                 responseBody.Message = "Internal Server Error";
                 responseBody.Status = "Failed";
                 responseBody.Payload = null;
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, responseBody);
         }
         }
        
         [HttpPost]
-        public async Task<ActionResult<Cycles>> CreateCycleAsync([FromBody] CycleDTO cycle)
+        public async Task<ActionResult<Cycle>> CreateCycleAsync([FromBody] CycleDTO cycle)
         {
             Response responseBody = new Response();
 
