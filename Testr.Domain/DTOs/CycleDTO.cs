@@ -9,7 +9,7 @@ using Testr.Domain.Base;
 namespace Testr.Domain.DTOs
 {
  public  class CycleDTO : CycleBase
-    {
+ {
         
-    }
+ }
 }
