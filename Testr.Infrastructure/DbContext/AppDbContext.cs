@@ -27,14 +27,15 @@ namespace Testr.Infrastructure.Authentication
                .HasOne(a => a.User)
                .WithOne();
 
-            builder.Entity<Cycles>()
-               .HasOne(d => d.CreatedBy)
+            builder.Entity<Cycle>()
+               .HasOne(c => c.CreatedBy)
                .WithMany();
         }
 
-        public DbSet<Candidate> Candidates { get; set; }
+           public DbSet<Candidate> Candidates { get; set; }
         
-        public DbSet<Administrator> Administrators { get; set; }
-        public DbSet<Cycles> Cycles { get; set; }
+           public DbSet<Administrator> Administrators { get; set; }
+        
+           public DbSet<Cycle> Cycles { get; set; }
     }
 }
