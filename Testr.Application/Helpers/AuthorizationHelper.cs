@@ -66,5 +66,32 @@ namespace Testr.Application.Helpers
 
             return result;
         }
+
+
+        public long GetCurrentAdminId()
+        {
+            long result = 0;
+            string userEmail = FetchCurrentUserEmail();
+
+            // Look up the admin's id using their email
+            Administrator admin = _dbContext.Administrators
+                .Where(a => a.EmailAddress == userEmail)
+                .FirstOrDefault();
+
+            if (admin != null)
+                result = admin.Id;
+
+            return result;
+        }
+
+        public Administrator GetCurrentAdmin()
+        {
+            string userEmail = FetchCurrentUserEmail();
+
+            // Look up the admin using their email
+            return _dbContext.Administrators
+                .Where(a => a.EmailAddress == userEmail)
+                .FirstOrDefault();
+        }
     }
 }

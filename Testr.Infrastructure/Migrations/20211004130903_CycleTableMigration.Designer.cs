@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Testr.Infrastructure.Authentication;
 
-namespace Testr.Infrastructure.Migrations
+namespace Testr.Infrastructure.migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210915221447_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20211004130903_CycleTableMigration")]
+    partial class CycleTableMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -120,6 +120,45 @@ namespace Testr.Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Testr.Domain.Entities.Administrator", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EmailAddress")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Administrators");
                 });
 
             modelBuilder.Entity("Testr.Domain.Entities.ApplicationRole", b =>
@@ -319,6 +358,45 @@ namespace Testr.Infrastructure.Migrations
                     b.ToTable("Candidates");
                 });
 
+            modelBuilder.Entity("Testr.Domain.Entities.Cycle", b =>
+                {
+                    b.Property<long>("CycleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CycleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateClosed")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOpened")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateRegistered")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("CycleId");
+
+                    b.ToTable("cycles");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
                 {
                     b.HasOne("Testr.Domain.Entities.ApplicationRole", null)
@@ -368,6 +446,17 @@ namespace Testr.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Testr.Domain.Entities.Administrator", b =>
+                {
+                    b.HasOne("Testr.Domain.Entities.ApplicationUser", "User")
+                        .WithOne()
+                        .HasForeignKey("Testr.Domain.Entities.Administrator", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Testr.Domain.Entities.Candidate", b =>

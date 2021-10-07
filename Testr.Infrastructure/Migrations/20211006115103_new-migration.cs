@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Testr.Infrastructure.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class newmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -65,6 +65,30 @@ namespace Testr.Infrastructure.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Administrators",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    EmailAddress = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Administrators", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Administrators_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -193,6 +217,37 @@ namespace Testr.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Cycles",
+                columns: table => new
+                {
+                    CycleId = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedById = table.Column<long>(type: "bigint", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CycleName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    DateOpened = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateClosed = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cycles", x => x.CycleId);
+                    table.ForeignKey(
+                        name: "FK_Cycles_Administrators_CreatedByIdId",
+                        column: x => x.CreatedById,
+                        principalTable: "Administrators",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Administrators_UserId",
+                table: "Administrators",
+                column: "UserId",
+                unique: true);
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -237,6 +292,11 @@ namespace Testr.Infrastructure.Migrations
                 table: "Candidates",
                 column: "UserId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cycles_CreatedByIdId",
+                table: "Cycles",
+                column: "CreatedByIdId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -260,7 +320,13 @@ namespace Testr.Infrastructure.Migrations
                 name: "Candidates");
 
             migrationBuilder.DropTable(
+                name: "Cycles");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Administrators");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

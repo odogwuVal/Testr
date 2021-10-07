@@ -356,6 +356,47 @@ namespace Testr.Infrastructure.Migrations
                     b.ToTable("Candidates");
                 });
 
+            modelBuilder.Entity("Testr.Domain.Entities.Cycle", b =>
+                {
+                    b.Property<long>("CycleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("CreatedByIdId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CycleName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime>("DateClosed")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOpened")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.HasKey("CycleId");
+
+                    b.HasIndex("CreatedByIdId");
+
+                    b.ToTable("Cycles");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
                 {
                     b.HasOne("Testr.Domain.Entities.ApplicationRole", null)
@@ -427,6 +468,17 @@ namespace Testr.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Testr.Domain.Entities.Cycle", b =>
+                {
+                    b.HasOne("Testr.Domain.Entities.Administrator", "CreatedById")
+                        .WithMany()
+                        .HasForeignKey("CreatedByIdId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CreatedById");
                 });
 #pragma warning restore 612, 618
         }
