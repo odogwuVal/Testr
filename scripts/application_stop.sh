@@ -2,7 +2,7 @@
 
 echo "stopping Testr.API application"
 cd /var/www/Testr/
-if [ pgrep dotnet ]
+if [[ pgrep dotnet ]]
 then pkill
 else
  exit
