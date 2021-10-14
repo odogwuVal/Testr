@@ -6,6 +6,9 @@ namespace Testr.Infrastructure.Authentication
 {
     public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, long>
     {
+         
+        
+        
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }

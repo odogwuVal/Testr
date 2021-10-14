@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Testr.Infrastructure.Migrations
 {
-    public partial class newmigration : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -235,7 +235,7 @@ namespace Testr.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Cycles", x => x.CycleId);
                     table.ForeignKey(
-                        name: "FK_Cycles_Administrators_CreatedByIdId",
+                        name: "FK_Cycles_Administrators_CreatedById",
                         column: x => x.CreatedById,
                         principalTable: "Administrators",
                         principalColumn: "Id",
@@ -294,9 +294,9 @@ namespace Testr.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cycles_CreatedByIdId",
+                name: "IX_Cycles_CreatedById",
                 table: "Cycles",
-                column: "CreatedByIdId");
+                column: "CreatedById");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

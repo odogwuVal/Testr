@@ -363,7 +363,7 @@ namespace Testr.Infrastructure.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("CreatedByIdId")
+                    b.Property<long>("CreatedById")
                         .HasColumnType("bigint");
 
                     b.Property<string>("CycleName")
@@ -392,7 +392,7 @@ namespace Testr.Infrastructure.Migrations
 
                     b.HasKey("CycleId");
 
-                    b.HasIndex("CreatedByIdId");
+                    b.HasIndex("CreatedById");
 
                     b.ToTable("Cycles");
                 });
@@ -472,13 +472,13 @@ namespace Testr.Infrastructure.Migrations
 
             modelBuilder.Entity("Testr.Domain.Entities.Cycle", b =>
                 {
-                    b.HasOne("Testr.Domain.Entities.Administrator", "CreatedById")
+                    b.HasOne("Testr.Domain.Entities.Administrator", "CreatedBy")
                         .WithMany()
-                        .HasForeignKey("CreatedByIdId")
+                        .HasForeignKey("CreatedById")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CreatedById");
+                    b.Navigation("CreatedBy");
                 });
 #pragma warning restore 612, 618
         }

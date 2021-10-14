@@ -116,9 +116,11 @@ namespace Testr.API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Testr.API v1"));
             }
             app.UseHttpsRedirection();
-
+	    
             app.UseRouting();
-
+	    
+	    app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Testr.API v1"));
             app.UseAuthentication();
             app.UseAuthorization();
 
