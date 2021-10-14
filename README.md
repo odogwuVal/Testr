@@ -1,5 +1,5 @@
 # Testr
-A comprehensive technical screening and evaluation app. 
+A comprehensive technical screening and evaluation application.
 
 
 ### Overview
