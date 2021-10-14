@@ -2,4 +2,4 @@
 
 echo "stopping Testr.API application"
 cd /var/www/Testr/
-killall -9 dotnet
+if pgrep dotnet; then pkill dotnet; fi
