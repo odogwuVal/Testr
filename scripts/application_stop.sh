@@ -6,8 +6,8 @@ cd /var/www/Testr/
 pgrep dotnet
 t=$((echo $?) 2>&1)
 if [ "$t" = "0" ]; then
-   sudo pkill -9 dotnet
+  sudo pkill -9 dotnet
 else
-          exit
+  exit
 fi
 
