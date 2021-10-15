@@ -2,4 +2,7 @@
 
 echo "stopping Testr.API application"
 cd /var/www/Testr/
-pkill -9 dotnet
+DOTNET="pgrep dotnet"
+if [[ -n  $DOTNET ]]; then
+      sudo pkill httpd
+fi
