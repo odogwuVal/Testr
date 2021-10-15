@@ -1,6 +1,6 @@
 #!/bin/bash
 
- cd /root/Testr.API
+ cd /root/Testr
  export ASPNETCORE_URLS="http://*:5000"
  dotnet ef database update -c AppDbContext -s Testr.API/Testr.API.csproj -p Testr.Infrastructure/Testr.Infrastructure.csproj
  dotnet publish -c Release -r ubuntu.16.04-x64 -o /var/www/Testr/
