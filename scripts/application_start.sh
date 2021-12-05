@@ -1,5 +1,4 @@
 #!/bin/bash
 
  cd /home/ubuntu/Testr.API
- export ASPNETCORE_URLS="http://*:5000"
- dotnet run
+ pm2 start 'dotnet run  --urls "http://*:5000"' --name Testr
