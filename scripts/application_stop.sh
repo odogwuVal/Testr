@@ -2,4 +2,5 @@
 
 echo "stopping Testr.API application"
 #DOTNET="pgrep dotnet"
-  sudo pkill -9 Testr.API
+pm2 stop all
+pm2 delete all  
